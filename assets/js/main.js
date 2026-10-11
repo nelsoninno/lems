@@ -137,7 +137,55 @@
       c.classList.add('is-playing');
       [].slice.call(document.querySelectorAll('video')).forEach(function(o){if(o!==v&&!o.paused)o.pause();});
     });
-    v.addEventListener('pause',function(){c.classList.remove('is-playing');});
-    v.addEventListener('ended',function(){c.classList.remove('is-playing');});
+    v.addEventListener('pause',function(){c.classList.remove('is-playing');v.removeAttribute('controls');});
+    v.addEventListener('ended',function(){c.classList.remove('is-playing');v.removeAttribute('controls');});
   });
+  // Green band: steady speed on every screen, speeds up with page scroll (reverses when scrolling up),
+  // and can be dragged/flicked with the mouse or a finger. Tune the two speeds below (pixels per second).
+  var band=document.querySelector('.state'),track=band&&band.querySelector('.state__track');
+  if(band&&track){
+    var SPEED_MOBILE=120,SPEED_DESKTOP=146;
+    var bx=0,bv=0,base=0,dir=-1,loopW=0,dragging=false,lastX=0,lastT=0,dragV=0,boost=0,lastScroll=window.pageYOffset||0,prev=0;
+    track.style.animation='none';
+    var measure=function(){
+      loopW=track.scrollWidth/2;
+      var t=Math.max(0,Math.min(1,(window.innerWidth-390)/(1024-390)));
+      base=reduce?0:(SPEED_MOBILE+(SPEED_DESKTOP-SPEED_MOBILE)*t);
+    };
+    measure();window.addEventListener('resize',measure);
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
+    window.addEventListener('scroll',function(){
+      var y=window.pageYOffset||0,dy=y-lastScroll;lastScroll=y;
+      if(reduce||dy===0)return;
+      dir=dy>0?-1:1;boost=Math.min(boost+Math.abs(dy)*0.6,1800);
+    },{passive:true});
+    band.addEventListener('pointerdown',function(e){
+      dragging=true;lastX=e.clientX;lastT=performance.now();dragV=0;band.classList.add('is-dragging');
+      try{band.setPointerCapture(e.pointerId);}catch(err){}
+    });
+    band.addEventListener('pointermove',function(e){
+      if(!dragging)return;
+      var now=performance.now(),dx=e.clientX-lastX,dt=Math.max(1,now-lastT);
+      bx+=dx;dragV=0.8*(dx/dt*1000)+0.2*dragV;lastX=e.clientX;lastT=now;
+    });
+    var endDrag=function(){
+      if(!dragging)return;
+      dragging=false;band.classList.remove('is-dragging');
+      bv=Math.max(-4000,Math.min(4000,dragV));
+      if(Math.abs(dragV)>40)dir=dragV<0?-1:1;
+    };
+    band.addEventListener('pointerup',endDrag);band.addEventListener('pointercancel',endDrag);band.addEventListener('lostpointercapture',endDrag);
+    var frame=function(now){
+      var dt=prev?Math.min(0.05,(now-prev)/1000):0;prev=now;
+      if(!dragging){
+        bv+=(dir*(base+boost)-bv)*Math.min(1,dt*3);
+        bx+=bv*dt;
+        boost*=Math.pow(0.02,dt);
+      }
+      if(loopW>0){while(bx<=-loopW)bx+=loopW;while(bx>0)bx-=loopW;}
+      track.style.transform='translate3d('+bx.toFixed(2)+'px,0,0)';
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  }
 })();
