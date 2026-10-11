@@ -1,0 +1,41 @@
+/* assets/css/tokens.css - colors + fonts ONLY. The one file to edit to re-skin lems.ad. */
+:root{
+  /* Brand palette */
+  --ink:#000000;          /* page background */
+  --ink-2:#080907;        /* alternate section background */
+  --card:#0E100A;
+  --paper:#FFFFFF;        /* main text */
+  --dim:#C9CEC1;          /* secondary text */
+  --muted:#8A9180;        /* tertiary text, labels */
+  --volt:#9FEC00;         /* Lems volt green: accent, buttons, bolt */
+  --volt-deep:#79B300;
+  --black:#000;
+  --line:rgba(159,236,0,.22);
+  --line-soft:rgba(255,255,255,.09);
+  --glow:rgba(159,236,0,.55);
+
+  /* Volt and shade alphas used by effects */
+  --volt-a09:rgba(159,236,0,.09);
+  --volt-a14:rgba(159,236,0,.14);
+  --volt-a16:rgba(159,236,0,.16);
+  --volt-a22:rgba(159,236,0,.22);
+  --volt-a30:rgba(159,236,0,.3);
+  --volt-a35:rgba(159,236,0,.35);
+  --volt-a40:rgba(159,236,0,.4);
+  --volt-a50:rgba(159,236,0,.5);
+  --shade-60:rgba(0,0,0,.6);
+  --shade-72:rgba(0,0,0,.72);
+  --shade-97:rgba(0,0,0,.97);
+
+  /* Footer credit colors (read by the inline EKY credit logo) */
+  --footer-bg:var(--ink);
+  --footer-fg:var(--muted);
+
+  /* Fonts */
+  --font-display:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+
+  /* Layout */
+  --maxw:1320px;
+  color-scheme:dark;
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Lems, agencia de publicidad en El Salvador",
+  "short_name": "Lems",
+  "description": "Lems (antes Lemusimún), agencia de publicidad integral en El Salvador desde 1976.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "es",
+  "icons": [
+    {"src": "/favicon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/favicon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any"}
+  ]
+}

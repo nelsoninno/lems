@@ -1,0 +1,9 @@
+# robots.txt for lems.ad
+# Every page is open and indexable, including AI search and user-fetch agents.
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# AI guide: https://lems.ad/llms.txt
+Sitemap: https://lems.ad/sitemap.xml
